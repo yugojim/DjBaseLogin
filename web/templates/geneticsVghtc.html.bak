@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+
+    <title>精準醫療資訊</title>
+  </head>
+  <body>
+  {% if request.user.is_authenticated %}
+		<div class="container">
+			<br>
+			<form method="post">
+			  <div class="form-row" style='text-align: center;'>
+				<div class="form-group col-md-3">
+				  <label for="inputState" ><h3>病歷號碼</h3></label>
+				</div>
+				<div class="form-group col-md-6">
+					<input name="PatientID" placeholder="" value="060PM08752258F07-068" class="form-control">
+				</div>
+				<div class="form-group col-md-3">
+					<center>
+						<button type="submit" class="btn-lg btn-light">搜尋</button>
+					</center>
+				</div>
+			  </div>
+			</form>
+			<div class="row">
+			  <div class="col-sm-12">    臺中榮民總醫院精準醫學中心成立於2019年4月，是一個高度跨領域的團隊，與<a href="https://tpmi.ibms.sinica.edu.tw/www/screening/"
+						target="_blank">醫療照顧系統</a>、腫瘤生物學、系統生物學、影像醫學、生物影像學和計算機科學有著緊密的聯繫。此外，精準醫學中心亦與院內部門多個臨床科室有著緊密的合作，包括生物資料庫、健康照護研究中心等。本中心不僅專注於基因組的研究，還設有採血站和臨床實驗室，從標本採集、核酸萃取到次世代定序（Next-Generation Sequencing，NGS）和SNP Array的實驗均能達到完整確實的實驗步驟。2021年2月9日，精準醫學中心的臨床實驗室通過財團法人全國認證基金會（TAF）查核，正式成為TAF認證實驗室。</div>
+			</div>
+			{% if PatientID %}
+			<br>
+			<br>
+			<div class="row">
+			  <div class="col-sm-2"><center><img src="/static/vghtc_log.gif" alt="vghtc_log"></center></div>
+			  <div class="col-sm-10"><center><h1>精準醫療基因資訊</h1></center></div>
+			</div>
+			<table class="table table-bordered">
+			  <tbody>
+				<tr>
+				  <td>採檢日期</td>
+				  <td>***</</td>
+				  <td>收件日期</td>
+				  <td>***</</td>
+				  <td>報告日期日期</td>
+				  <td>***</</td>
+				</tr>
+				<tr>
+				  <td>報告編號</td>
+				  <td>病歷號碼</td>
+				  <td>姓名</td>
+				  <td>身分證字號</td>
+				  <td>出生日期</td>
+				  <td>檢體類別</td>
+				</tr>
+				<tr>
+				  <td>***</td>
+				  <td>{{ PatientID }}</td>
+				  <td>***</td>
+				  <td>***</td>
+				  <td>***</td>
+				  <td>血液</td>
+				</tr>
+				<tr>
+				  <td>檢驗單位</td>
+				  <td colspan="5">***</</td>
+				</tr>
+			  </tbody>
+			</table>
+			<table class="table table-bordered">
+			  <thead>
+				<tr>
+				  <th scope="col">項次</th>
+				  <th scope="col">項目</th>
+				  <th scope="col">基因名稱</th>
+				  <th scope="col">風險程度</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				<tr>
+				  <td>1</td>
+				  <td><a href="/risk?risk=Alc_risk" title="" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">酒精代謝</a>
+				  </td>
+				  <td><a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:404" 
+						
+						{% if ALDH2list %}
+							title="
+								{% for ALDH2rs in ALDH2list %}{{ ALDH2rs }}&#10;{% endfor %}"
+						{% else %}
+							title=""
+						{% endif %} 
+						target="_blank">ALDH2
+					</a>
+				  </td>
+				  <td><h5>
+					<span
+						{% if ALDH2list %}
+							{% if ALDH2list.0 == "G/G at SNP rs671" %}class="badge badge-success">未檢出異常
+							{% else %}class="badge badge-warning">中度風險
+							{% endif %}
+						{% endif %}
+					</span>
+				  </h5></td>
+				</tr>
+				<tr>
+				  <td>2</td>
+				  <td><a href="/risk?risk=Obes_risk" title="" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">肥胖</a>
+				  </td>
+				  <td>
+					<a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:24678" 
+						{% if Obes_list %}title="{% for Obesrs in Obes_list %}{{ Obesrs }}&#10;{% endfor %}"{% else %}title=""{% endif %} target="_blank">FTO
+					</a>
+				  </td>
+				  <td><h5>
+					<span
+							{% if Obes_risk == "較高風險" %}class="badge badge-danger"
+							{% elif Obes_risk == "中度風險" %}class="badge badge-warning"
+							{% elif Obes_risk == "未檢出異常" %}class="badge badge-success"
+							{% else %}class="badge badge-secondary"
+							{% endif %}
+						>
+							{% if Obes_risk %}{{ Obes_risk }}{% else %}{% endif %}
+					</span>
+				  </h5></td>
+				</tr>
+				<tr>
+				  <td>3</td>
+				  <td><a href="/risk?risk=ABCG2_risk" title="" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">尿酸代謝</a></td>
+				  <td>
+					<a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:74" 
+						{% if ABCG2list %}title="{% for ABCG2rs in ABCG2list %}{{ ABCG2rs }}&#10;{% endfor %}"{% else %}title=""{% endif %} 
+						target="_blank">ABCG2
+					</a>
+				  </td>
+				  <td><h5>				  
+					<span
+						{% if ABCG2list %}
+							{% if ABCG2list.0 == "G/G at SNP rs2231142" %}
+								class="badge badge-success">未檢出異常
+							{% else %}
+								class="badge badge-warning">中度風險
+							{% endif %}
+						{% endif %}
+					</span>
+					</h5></td>
+				</tr>
+				<tr>
+				  <td>4</td>
+				  <td><a href="/risk?risk=HBB_risk" title="" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">乙型地中海貧血</a></td>
+				  <td>
+					<a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:4827" 
+						{% if HBBlist %}title="{% for HBBrs in HBBlist %}{{ HBBrs }}&#10;{% endfor %}"{% else %}title=""{% endif %} target="_blank">HBB
+					</a>
+				  </td>
+				  <td><h5>
+					  <span
+							{% if HBB_risk == "較高風險" %}class="badge badge-danger"
+							{% elif HBB_risk == "中度風險" %}class="badge badge-warning"
+							{% elif HBB_risk == "未檢出異常" %}class="badge badge-success"
+							{% else %}class="badge badge-secondary"
+							{% endif %}
+						>
+							{% if HBB_risk %}{{ HBB_risk }}{% else %}{% endif %}
+					  </span>
+				  </h5></td>
+				</tr>
+				<tr>
+				  <td>5</td>
+				  <td>家族性高膽固醇血症</td>
+				  <td>
+					<a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:6549" 
+						{% if LDLRlist %}title="{% for LDLRrs in LDLRlist %}{{ LDLRrs }}&#10;{% endfor %}"{% else %}title=""{% endif %} target="_blank">LDLR
+					</a>
+				  、
+				  PCSK9
+				  、
+				  APOB
+				  </td>
+				  <td><h5>
+					<span
+							{% if FH_risk == "較高風險" %}class="badge badge-danger"
+							{% elif FH_risk == "中度風險" %}class="badge badge-warning"
+							{% elif FH_risk == "未檢出異常" %}class="badge badge-success"
+							{% else %}class="badge badge-secondary"
+							{% endif %}
+						>
+							{% if FH_risk %}{{ FH_risk }}{% else %}{% endif %}
+					</span>			  </h5></td>
+				</tr>
+				<tr>
+				  <td>6</td>
+				  <td>遺傳性腦部小動脈病變</td>
+				  <td>
+					<a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:4827" 
+						{% if NOTCH3list %}title="{% for NOTCH3rs in NOTCH3list %}{{ NOTCH3rs }}&#10;{% endfor %}"{% else %}title=""{% endif %} target="_blank">
+						NOTCH3
+					</a>
+				  </td>
+				  <td><h5>
+					<span
+						{% if NOTCH3list %}
+							{% if NOTCH3list.0 == "G/G at SNP rs201118034" %}class="badge badge-success">未檢出異常
+							{% else %}class="badge badge-warning">中度風險
+							{% endif %}
+						{% endif %}
+					</span>
+				  </h5></td>
+				</tr>
+				<tr>
+				  <td>7</td>
+				  <td>年青人成年型糖尿病</td>
+				  <td>ABCC8、GCK、HNF1A、HNF1B、HNF4A、KCNJ11、PDX1</td>
+				  <td><h5><span class="badge badge-secondary">
+				  </span></h5></td>
+				</tr>
+				<tr>
+				  <td>8</td>
+				  <td>藥物代謝酵素CYP2C19</td>
+				  <td>
+					<a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:4827" 
+						{% if CYP2C19list %}title="{% for CYP2C19rs in CYP2C19list %}{{ CYP2C19rs }}&#10;{% endfor %}"{% else %}title=""{% endif %} target="_blank">
+						CYP2C19
+					</a>			  
+				  </td>
+				  <td><h5><span class="badge badge-secondary"> </span></h5></td>
+				</tr>
+				<tr>
+				  <td>9</td>
+				  <td>藥物代謝酵素TPMT</td>
+				  <td>TPMT</td>
+				  <td><h5><span class="badge badge-secondary"> </span></h5></td>
+				</tr>
+				<tr>
+				  <td>10</td>
+				  <td>降尿酸藥物Allopurinol過敏基因</td>
+				  <td></td>
+				  <td><h5><span class="badge badge-secondary"> </span></h5></td>
+				</tr>
+				<tr class="table-active"><td colspan="4"><center>總結</center></td></tr>
+				<tr>
+					<td colspan="4">
+						{% if final_comment %}{{ final_comment }}{% else %}未檢出異常{% endif %}
+					</td>
+				</tr>
+			  </tbody>-->
+			</table>
+			{% endif %}
+		</div>
+	{% else %}
+		<center>
+			<p>未登入<a href="/accounts/login/">登入</a></p>
+		</center>
+    {% endif %}
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="/static/js/jquery-3.3.1.js"></script>
+    <script src="/static/js/popper.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+  </body>
+</html>
