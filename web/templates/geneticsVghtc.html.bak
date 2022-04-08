@@ -14,7 +14,7 @@
   {% if request.user.is_authenticated %}
 		<div class="container">
 			<br>
-			<form method="post">
+			<form method="post">{% csrf_token %}
 			  <div class="form-row" style='text-align: center;'>
 				<div class="form-group col-md-3">
 				  <label for="inputState" ><h3>病歷號碼</h3></label>

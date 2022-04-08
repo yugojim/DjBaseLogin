@@ -1,41 +1,31 @@
 from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponse,HttpResponseRedirect
 from django.urls import reverse
+import pandas as pd
+from . import Function
+import pathlib
 #from django.template import loader
 
 from .models import Question,Choice
 
+#print(pathlib.Path().absolute())
+DataPath = pathlib.Path().absolute()
+risk = str(DataPath) + '/risk.csv'
+riskdf = pd.read_csv(risk, encoding='utf8')
+#print(riskdf)
+
+fhir = 'http://192.168.1.119:8001/fhir/'
 def index(request):
-    if 'PatientID' in request.POST:
-        PatientID = request.POST['PatientID']
-    else:
-        PatientID=None
-    HBBlist=[]
-    Obes_list=[]
-    ABCG2list=[]
-    ALDH2list=[]
-    NOTCH3list=[]
-    LDLRlist=[]
-    CYP2C19list=[]
-    HBB_risk=[]
-    Obes_risk=[]
-    FH_risk=[]
-    final_comment=[]
-    context = {
-        'PatientID' : PatientID,
-        'ALDH2list' : ALDH2list,
-        'Obes_list' : Obes_list,
-        'ABCG2list' : ABCG2list,
-        'HBBlist' : HBBlist,
-        'LDLRlist' : LDLRlist,
-        'NOTCH3list' : NOTCH3list,
-        'CYP2C19list' : CYP2C19list,
-        'HBB_risk' : HBB_risk,
-        'Obes_risk' : Obes_risk,
-        'FH_risk' : FH_risk,
-        'final_comment' : final_comment,
-        }
-    return render(request, 'geneticsVghtc.html', context)
+    try:
+        if 'PatientID' in request.POST:
+            PatientID = request.POST['PatientID']
+            context=Function.post_data(fhir,PatientID)
+            #print(context)
+        else:
+            PatientID=None
+        return render(request, 'geneticsVghtc.html', context)
+    except:
+        return render(request, 'geneticsVghtc.html')
 
 
 ############
