@@ -16,12 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 from . import views
 app_name = 'web'
 urlpatterns = [
     # ex: /polls/
     path('', views.index, name='index'),
+    path('dbSNP/', views.dbSNP, name='dbSNP'),
+    path('risk/', views.getRisk, name='getRisk'),
     path('accounts/', include('django.contrib.auth.urls')),
     #path('change-password/', auth_views.PasswordChangeView.as_view(), name='password_reset'),
     
@@ -31,4 +35,4 @@ urlpatterns = [
     path('<int:question_id>/results/', views.results, name='results'),
     # ex: /polls/5/vote/
     path('<int:question_id>/vote/', views.vote, name='vote'),
-]
+]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

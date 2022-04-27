@@ -16,9 +16,9 @@ DEFAULT_AUTO_FIELD='django.db.models.AutoField'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+#登入登出目錄設定
 LOGIN_REDIRECT_URL = '/'
-
+LOGOUT_REDIRECT_URL = '/'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -26,10 +26,13 @@ LOGIN_REDIRECT_URL = '/'
 SECRET_KEY = 'u+50)3pb3&-s74^x&g$+68uev59gdxhrohuqn+(&l$(0@_z)4q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# static 設定只會在DEBUG = True生效
+# DEBUG = False必須另外設定
+#DEBUG = False
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+#允許任何IP連進來
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -119,11 +122,16 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
-
-STATIC_URL = '/static/'
-"""STATICFILES_DIRS = [
+STATIC_URL = 'static/'
+###自機測試
+STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-]"""
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+]
+###AWS用
+#STATICFILES_DIRS = [
+#    BASE_DIR / 'static',
+#    '/home/gojim/library/static/',
+#    '/home/bitnami/library/web/static'
+#]
+STATIC_ROOT = '/static/'
+#print(STATIC_URL,STATICFILES_DIRS,STATIC_ROOT)

@@ -5,11 +5,10 @@ import pandas as pd
 from . import Function
 import pathlib
 #from django.template import loader
-
 from .models import Question,Choice
 
-#print(pathlib.Path().absolute())
 DataPath = pathlib.Path().absolute()
+#print(pathlib.Path().absolute())
 risk = str(DataPath) + '/risk.csv'
 riskdf = pd.read_csv(risk, encoding='utf8')
 #print(riskdf)
@@ -27,6 +26,43 @@ def index(request):
     except:
         return render(request, 'geneticsVghtc.html')
 
+def dbSNP(request):
+    try:
+        if 'Alleles' in request.POST:
+            Alleles = request.POST['Alleles']
+            dbSNP = request.POST['dbSNP']
+            #print(Alleles)
+            context=Function.post_dbSNP(fhir,Alleles,dbSNP)
+            #print(context)
+        elif 'Alleles' in request.GET:
+            Alleles = request.GET['Alleles']
+            dbSNP = request.GET['dbSNP']
+            #print(Alleles)
+            context=Function.post_dbSNP(fhir,Alleles,dbSNP)
+        else:
+            context=None
+        return render(request, 'geneticsdbSNP.html', context)
+    except:
+        return render(request, 'geneticsdbSNP.html')
+
+def getRisk(request):
+    try:
+        riskrlue = request.GET['risk']
+        #riskrlue='Alc_risk'
+        #print(riskrlue)
+
+        risksdf=riskdf[riskdf['risk']==riskrlue]
+        #print(risksdf)
+        #risksdict = risksdf.to_dict()
+        risksdict = risksdf.to_dict('records')
+    
+        context = {
+                'riskrlue' : riskrlue,
+                'risks' : risksdict
+                }
+        return render(request,'geneticsRisk.html', context)
+    except:
+        return render(request,'geneticsRisk.html')
 
 ############
 def detail(request, question_id):

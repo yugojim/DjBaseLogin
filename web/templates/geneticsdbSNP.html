@@ -18,6 +18,7 @@
 		  <div class="col-sm-12"><center><h1>dbSNP Alleles Change Search</h1></center></div>
 		</div>
 		<form method="post">
+		{% csrf_token %}
 		  <div class="form-row" style='text-align: center;'>
 			<div class="form-group col-md-4">
 			  <label for="inputState">Alleles</label>
@@ -29,7 +30,7 @@
 			</div>
 			<div class="form-group col-md-4">
 				<center>
-					<button type="submit" class="btn-lg btn-light">搜尋</button>
+					<button type="submit" class="btn-lg btn-light">Search</button>
 				</center>
 			</div>
 		  </div>
@@ -41,10 +42,10 @@
 			<table class="table">
 			  <thead>
 				<tr>
-					{% for url in link: %}
+					{% for links in link %}
 						<th scope="row">
-						<a href="{{ url.url }}" title="" target="_blank">
-							{{ url.relation }}
+						<a href="{{ links.url }}" title="" target="_blank">
+							{{ links.relation }}
 						</a>
 						</th>
 					{% endfor %}
@@ -52,7 +53,7 @@
 			  </thead>
 			</table>
 			{% endif %}
-			{% if rets %}
+			{% if data %}
 			<table class="table">
 			  <thead>
 				<tr>
@@ -60,7 +61,7 @@
 				</tr>
 			  </thead>
 			  <tbody>
-				{% for member in rets: %}
+				{% for member in data %}
 					<tr>
 						<th scope="row">{{ member.resource.subject.reference }}</th>
 					</tr>

@@ -1,62 +1,68 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
   <head>
+    <title>Precision Medicine Genetic Information</title>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static '' %}css/bootstrap.min.css">
 
-    <title>精準醫療資訊</title>
   </head>
-  <body>
+  
   {% if request.user.is_authenticated %}
+  <body>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+	  <h5 class="my-0 mr-md-auto font-weight-normal">NYMU DC&copy; 2017–2021</h5>
+	  <nav class="my-2 my-md-0 mr-md-3">
+		<a class="p-2 text-dark" href="/admin">Admin</a>
+		<a class="p-2 text-dark" href="#">Enterprise</a>
+		<a class="p-2 text-dark" href="#">Support</a>
+	  </nav>
+	  <a class="btn btn-outline-primary" href="{% url 'web:logout' %}">Logout</a>
+	</div>
 		<div class="container">
-			<br>
 			<form method="post">{% csrf_token %}
 			  <div class="form-row" style='text-align: center;'>
 				<div class="form-group col-md-3">
-				  <label for="inputState" ><h3>病歷號碼</h3></label>
+				  <h2>GUID or Medical record number</h2>
 				</div>
 				<div class="form-group col-md-6">
 					<input name="PatientID" placeholder="" value="060PM08752258F07-068" class="form-control">
 				</div>
 				<div class="form-group col-md-3">
 					<center>
-						<button type="submit" class="btn-lg btn-light">搜尋</button>
+						<button type="submit" class="btn-lg btn-light">Search</button>
 					</center>
 				</div>
 			  </div>
 			</form>
-			<div class="row">
-			  <div class="col-sm-12">    臺中榮民總醫院精準醫學中心成立於2019年4月，是一個高度跨領域的團隊，與<a href="https://tpmi.ibms.sinica.edu.tw/www/screening/"
-						target="_blank">醫療照顧系統</a>、腫瘤生物學、系統生物學、影像醫學、生物影像學和計算機科學有著緊密的聯繫。此外，精準醫學中心亦與院內部門多個臨床科室有著緊密的合作，包括生物資料庫、健康照護研究中心等。本中心不僅專注於基因組的研究，還設有採血站和臨床實驗室，從標本採集、核酸萃取到次世代定序（Next-Generation Sequencing，NGS）和SNP Array的實驗均能達到完整確實的實驗步驟。2021年2月9日，精準醫學中心的臨床實驗室通過財團法人全國認證基金會（TAF）查核，正式成為TAF認證實驗室。</div>
-			</div>
 			{% if PatientID %}
 			<br>
 			<br>
 			<div class="row">
-			  <div class="col-sm-2"><center><img src="/static/vghtc_log.gif" alt="vghtc_log"></center></div>
-			  <div class="col-sm-10"><center><h1>精準醫療基因資訊</h1></center></div>
+			  <div class="col-sm-2"><center><img src="{% static '' %}210204-NYCU.jpg" alt="vghtc_log"></center></div>
+			  <div class="col-sm-10"><center><h1>Precision Medicine Genetic Information</h1></center></div>
 			</div>
 			<table class="table table-bordered">
 			  <tbody>
 				<tr>
-				  <td>採檢日期</td>
+				  <td>Collection date</td>
 				  <td>***</</td>
-				  <td>收件日期</td>
+				  <td>Receipt date</td>
 				  <td>***</</td>
-				  <td>報告日期日期</td>
+				  <td>Report date</td>
 				  <td>***</</td>
 				</tr>
 				<tr>
-				  <td>報告編號</td>
-				  <td>病歷號碼</td>
-				  <td>姓名</td>
-				  <td>身分證字號</td>
-				  <td>出生日期</td>
-				  <td>檢體類別</td>
+				  <td>Report No</td>
+				  <td>Medical record number</td>
+				  <td>Name</td>
+				  <td>ID number</td>
+				  <td>Birthday</td>
+				  <td>Specimen</td>
 				</tr>
 				<tr>
 				  <td>***</td>
@@ -64,10 +70,10 @@
 				  <td>***</td>
 				  <td>***</td>
 				  <td>***</td>
-				  <td>血液</td>
+				  <td>blood</td>
 				</tr>
 				<tr>
-				  <td>檢驗單位</td>
+				  <td>Inspection Entity</td>
 				  <td colspan="5">***</</td>
 				</tr>
 			  </tbody>
@@ -75,16 +81,17 @@
 			<table class="table table-bordered">
 			  <thead>
 				<tr>
-				  <th scope="col">項次</th>
-				  <th scope="col">項目</th>
-				  <th scope="col">基因名稱</th>
-				  <th scope="col">風險程度</th>
+				  <th scope="col">Index</th>
+				  <th scope="col">Item</th>
+				  <th scope="col">Gene</th>
+				  <th scope="col">Risk</th>
+				  <th scope="col">Health education leaflet</th>
 				</tr>
 			  </thead>
 			  <tbody>
 				<tr>
 				  <td>1</td>
-				  <td><a href="/risk?risk=Alc_risk" title="" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">酒精代謝</a>
+				  <td><a href="/risk?risk=Alc_risk" title="" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">alcohol metabolism</a>
 				  </td>
 				  <td><a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:404" 
 						
@@ -100,16 +107,18 @@
 				  <td><h5>
 					<span
 						{% if ALDH2list %}
-							{% if ALDH2list.0 == "G/G at SNP rs671" %}class="badge badge-success">未檢出異常
-							{% else %}class="badge badge-warning">中度風險
+							{% if ALDH2list.0 == "G/G at SNP rs671" %}class="badge badge-success">normal
+							{% else %}class="badge badge-warning">riskless
 							{% endif %}
 						{% endif %}
 					</span>
 				  </h5></td>
+				  <td><a href="https://www.cmuh.cmu.edu.tw/HealthEdus/Detail?no=5405" target="_blank">leaflet
+					</a></td>
 				</tr>
 				<tr>
 				  <td>2</td>
-				  <td><a href="/risk?risk=Obes_risk" title="" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">肥胖</a>
+				  <td><a href="/risk?risk=Obes_risk" title="" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">obesity</a>
 				  </td>
 				  <td>
 					<a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:24678" 
@@ -117,20 +126,28 @@
 					</a>
 				  </td>
 				  <td><h5>
-					<span
-							{% if Obes_risk == "較高風險" %}class="badge badge-danger"
-							{% elif Obes_risk == "中度風險" %}class="badge badge-warning"
-							{% elif Obes_risk == "未檢出異常" %}class="badge badge-success"
-							{% else %}class="badge badge-secondary"
+						<span
+							{% if Obes_risk == "較高風險" %}
+							class="badge badge-danger">risk
+							</span></h5></td>
+							<td><a href="https://www.cmuh.cmu.edu.tw/HealthEdus/Detail?no=4789" target="_blank">leaflet
+							</a></td>
+							{% elif Obes_risk == "中度風險" %}
+							class="badge badge-warning">riskless
+							</span></h5></td>
+							<td><a href="https://www.cmuh.cmu.edu.tw/HealthEdus/Detail?no=4789" target="_blank">leaflet
+							</a></td>
+							{% elif Obes_risk == "未檢出異常" %}
+							class="badge badge-success">normal
+							</span></h5></td>
+							{% else %}
+							class="badge badge-secondary">none
+							</span></h5></td>
 							{% endif %}
-						>
-							{% if Obes_risk %}{{ Obes_risk }}{% else %}{% endif %}
-					</span>
-				  </h5></td>
 				</tr>
 				<tr>
 				  <td>3</td>
-				  <td><a href="/risk?risk=ABCG2_risk" title="" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">尿酸代謝</a></td>
+				  <td><a href="/risk?risk=ABCG2_risk" title="" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">Uric acid metabolism</a></td>
 				  <td>
 					<a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:74" 
 						{% if ABCG2list %}title="{% for ABCG2rs in ABCG2list %}{{ ABCG2rs }}&#10;{% endfor %}"{% else %}title=""{% endif %} 
@@ -141,60 +158,89 @@
 					<span
 						{% if ABCG2list %}
 							{% if ABCG2list.0 == "G/G at SNP rs2231142" %}
-								class="badge badge-success">未檢出異常
+								class="badge badge-success">normal
+								</span></h5></td>
 							{% else %}
-								class="badge badge-warning">中度風險
+								class="badge badge-warning">riskless
+								</span></h5></td>
+								<td><a href="https://www.cmuh.cmu.edu.tw/HealthEdus/Detail?no=4864" target="_blank">leaflet</a></td>
 							{% endif %}
 						{% endif %}
-					</span>
-					</h5></td>
+					
+
 				</tr>
 				<tr>
 				  <td>4</td>
-				  <td><a href="/risk?risk=HBB_risk" title="" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">乙型地中海貧血</a></td>
+				  <td><a href="/risk?risk=HBB_risk" title="" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">beta-thalassemia</a></td>
 				  <td>
 					<a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:4827" 
 						{% if HBBlist %}title="{% for HBBrs in HBBlist %}{{ HBBrs }}&#10;{% endfor %}"{% else %}title=""{% endif %} target="_blank">HBB
 					</a>
 				  </td>
 				  <td><h5>
-					  <span
-							{% if HBB_risk == "較高風險" %}class="badge badge-danger"
-							{% elif HBB_risk == "中度風險" %}class="badge badge-warning"
-							{% elif HBB_risk == "未檢出異常" %}class="badge badge-success"
-							{% else %}class="badge badge-secondary"
+						<span
+							{% if HBB_risk == "較高風險" %}
+							class="badge badge-danger">risk
+							</span></h5></td>
+							<td><a href="https://www.cmuh.cmu.edu.tw/HealthEdus/Detail?no=5081" target="_blank">leaflet
+							</a></td>
+							{% elif HBB_risk == "中度風險" %}
+							class="badge badge-warning">riskless
+							</span></h5></td>
+							<td><a href="https://www.cmuh.cmu.edu.tw/HealthEdus/Detail?no=5081" target="_blank">leaflet
+							</a></td>
+							{% elif HBB_risk == "未檢出異常" %}
+							class="badge badge-success">normal
+							</span></h5></td>
+							{% else %}
+							class="badge badge-secondary">none
+							</span></h5></td>
 							{% endif %}
-						>
-							{% if HBB_risk %}{{ HBB_risk }}{% else %}{% endif %}
-					  </span>
-				  </h5></td>
 				</tr>
 				<tr>
 				  <td>5</td>
-				  <td>家族性高膽固醇血症</td>
 				  <td>
-					<a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:6549" 
+					<a href="/risk?risk=FH_risk" title="" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">familial hypercholesterolemia</a>					
+				  </td>
+				  <td>
+					<a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:6547" 
 						{% if LDLRlist %}title="{% for LDLRrs in LDLRlist %}{{ LDLRrs }}&#10;{% endfor %}"{% else %}title=""{% endif %} target="_blank">LDLR
 					</a>
 				  、
-				  PCSK9
+				  <a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:20001" 
+						{% if PCSK9list %}title="{% for PCSK9rs in PCSK9list %}{{ PCSK9rs }}&#10;{% endfor %}"{% else %}title=""{% endif %} target="_blank">PCSK9
+					</a>				  
 				  、
-				  APOB
+				  <a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:603" 
+						{% if PCSK9list %}title="{% for APOBrs in APOBlist %}{{ APOBrs }}&#10;{% endfor %}"{% else %}title=""{% endif %} target="_blank">APOB
+					</a>
 				  </td>
 				  <td><h5>
-					<span
-							{% if FH_risk == "較高風險" %}class="badge badge-danger"
-							{% elif FH_risk == "中度風險" %}class="badge badge-warning"
-							{% elif FH_risk == "未檢出異常" %}class="badge badge-success"
-							{% else %}class="badge badge-secondary"
+						<span
+							{% if FH_risk == "較高風險" %}
+							class="badge badge-danger">risk
+							</span></h5></td>
+							<td><a href="https://www.cmuh.cmu.edu.tw/HealthEdus/Detail?no=4859" target="_blank">leaflet
+							</a></td>
+							{% elif FH_risk == "中度風險" %}
+							class="badge badge-warning">riskless
+							</span></h5></td>
+							<td><a href="https://www.cmuh.cmu.edu.tw/HealthEdus/Detail?no=4859" target="_blank">leaflet
+							</a></td>
+							{% elif FH_risk == "未檢出異常" %}
+							class="badge badge-success">normal
+							</span></h5></td>
+							{% else %}
+							class="badge badge-secondary">none
+							</span></h5></td>
 							{% endif %}
-						>
-							{% if FH_risk %}{{ FH_risk }}{% else %}{% endif %}
-					</span>			  </h5></td>
 				</tr>
 				<tr>
 				  <td>6</td>
-				  <td>遺傳性腦部小動脈病變</td>
+					  <td>
+						  <a href="/risk?risk=CADASIL_risk" title="" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">hereditary cerebral arteriopathy
+						  </a>
+					  </td>
 				  <td>
 					<a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:4827" 
 						{% if NOTCH3list %}title="{% for NOTCH3rs in NOTCH3list %}{{ NOTCH3rs }}&#10;{% endfor %}"{% else %}title=""{% endif %} target="_blank">
@@ -204,62 +250,178 @@
 				  <td><h5>
 					<span
 						{% if NOTCH3list %}
-							{% if NOTCH3list.0 == "G/G at SNP rs201118034" %}class="badge badge-success">未檢出異常
-							{% else %}class="badge badge-warning">中度風險
+							{% if NOTCH3list.0 == "G/G at SNP rs201118034" %}
+							class="badge badge-success">normal
+							</span></h5></td>
+							{% else %}
+							class="badge badge-warning">riskless
+							</span></h5></td>
+							<td><a href="https://www.cmuh.cmu.edu.tw/HealthEdus/Detail?no=4847" target="_blank">leaflet
+							</a></td>
 							{% endif %}
 						{% endif %}
-					</span>
-				  </h5></td>
 				</tr>
 				<tr>
 				  <td>7</td>
-				  <td>年青人成年型糖尿病</td>
-				  <td>ABCC8、GCK、HNF1A、HNF1B、HNF4A、KCNJ11、PDX1</td>
-				  <td><h5><span class="badge badge-secondary">
-				  </span></h5></td>
+					  <td>
+						 <a href="/risk?risk=MODY_risk" title="" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">Adult-onset diabetes in young adults				  </a>						
+					  </td>
+				  <td>
+					<a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:59" 
+						{% if ABCC8list %}title="{% for ABCC8Rrs in ABCC8list %}{{ ABCC8Rrs }}&#10;{% endfor %}"{% else %}title=""{% endif %} target="_blank">ABCC8
+					</a>、
+					<a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:4195" 
+						{% if GCKlist %}title="{% for GCKRrs in GCKlist %}{{ GCKRrs }}&#10;{% endfor %}"{% else %}title=""{% endif %} target="_blank">GCK
+					</a>、
+					<a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:5024" 
+						{% if HNF1Alist %}title="{% for HNF1ARrs in HNF1Alist %}{{ HNF1ARrs }}&#10;{% endfor %}"{% else %}title=""{% endif %} target="_blank">HNF1A
+					</a>、
+					<a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:11621" 
+						{% if HNF4Alist %}title="{% for HNF4ARrs in HNF4Alist %}{{ HNF4ARrs }}&#10;{% endfor %}"{% else %}title=""{% endif %} target="_blank">HNF4A
+					</a>、
+					<a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:6257" 
+						{% if KCNJ11list %}title="{% for KCNJ11Rrs in KCNJ11list %}{{ KCNJ11Rrs }}&#10;{% endfor %}"{% else %}title=""{% endif %} target="_blank">KCNJ11
+					</a>
+					</td>
+				  <td><h5>
+						<span
+							{% if MODY_risk == "較高風險" %}
+							class="badge badge-danger">risk
+							</span></h5></td>
+							<td><a href="https://www.cmuh.cmu.edu.tw/HealthEdus/Detail?no=4802" target="_blank">leaflet
+							</a></td>
+							{% elif MODY_risk == "中度風險" %}
+							class="badge badge-warning">riskless
+							</span></h5></td>
+							<td><a href="https://www.cmuh.cmu.edu.tw/HealthEdus/Detail?no=4802" target="_blank">leaflet
+							</a></td>
+							{% elif MODY_risk == "未檢出異常" %}
+							class="badge badge-success">normal
+							</span></h5></td>
+							{% else %}
+							class="badge badge-secondary">none
+							</span></h5></td>
+							{% endif %}
 				</tr>
 				<tr>
 				  <td>8</td>
-				  <td>藥物代謝酵素CYP2C19</td>
+					<td>
+						 <a href="/risk?risk=CYP2C19_risk" title="" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">Adult-onset diabetes in young adults				  </a>
+					</td>
 				  <td>
 					<a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:4827" 
 						{% if CYP2C19list %}title="{% for CYP2C19rs in CYP2C19list %}{{ CYP2C19rs }}&#10;{% endfor %}"{% else %}title=""{% endif %} target="_blank">
 						CYP2C19
 					</a>			  
 				  </td>
-				  <td><h5><span class="badge badge-secondary"> </span></h5></td>
+				  <td><h5>
+					<span
+						{% if CYP2C19_risk == "較高風險(慢速代謝者)" %}class="badge badge-danger">risk
+						{% elif CYP2C19_risk == "中度風險(中速代謝者)" %}class="badge badge-warning">riskless
+						{% elif CYP2C19_risk == "未檢出異常" %}class="badge badge-success">normal
+						{% else %}class="badge badge-secondary">none
+						{% endif %}
+					</span>	
+				  </h5></td>
+
 				</tr>
 				<tr>
 				  <td>9</td>
-				  <td>藥物代謝酵素TPMT</td>
-				  <td>TPMT</td>
-				  <td><h5><span class="badge badge-secondary"> </span></h5></td>
+					<td>
+					  <a href="/risk?risk=TPMT_risk" title="" onclick="window.open(this.href, 'mywin','left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;">drug metabolizing enzyme TPMT
+					  </a>						
+					</td>
+					<td>
+						<a href="https://www.genenames.org/data/gene-symbol-report/#!/hgnc_id/HGNC:12014" 
+							{% if TPMTlist %}title="{% for TPMTrs in TPMTlist %}{{ TPMTrs }}&#10;{% endfor %}"{% else %}title=""{% endif %} target="_blank">TPMT
+						</a>						
+					</td>
+				  <td><h5>
+					<span
+						{% if TPMT_risk == "較高風險" %}class="badge badge-danger">risk
+						{% elif TPMT_risk == "中度風險" %}class="badge badge-warning">riskless
+						{% elif TPMT_risk == "未檢出異常" %}class="badge badge-success">normal
+						{% else %}class="badge badge-secondary">none
+						{% endif %}
+					</span>	
+				  </h5></td>
 				</tr>
 				<tr>
 				  <td>10</td>
-				  <td>降尿酸藥物Allopurinol過敏基因</td>
-				  <td></td>
-				  <td><h5><span class="badge badge-secondary"> </span></h5></td>
+				  <td>Uric acid-lowering drug Allopurinol allergic gene</td>
+					<td>
+						HLA–B*58:01
+					</td>
+				  <td><h5><span class="badge badge-secondary">none</span></h5></td>
 				</tr>
-				<tr class="table-active"><td colspan="4"><center>總結</center></td></tr>
-				<tr>
+				<tr class="table-active"><td colspan="5"><center>Summarize</center></td></tr>
+				<tr>					
+					<td><a href="https://www.cmuh.cmu.edu.tw/HealthEdus?type=1" target="_blank">Health education leaflet
+				    </a></td>
 					<td colspan="4">
-						{% if final_comment %}{{ final_comment }}{% else %}未檢出異常{% endif %}
+						{% if final_comment %}{{ final_comment }}{% else %}normal{% endif %}
 					</td>
 				</tr>
-			  </tbody>-->
+			  </tbody>
 			</table>
 			{% endif %}
 		</div>
 	{% else %}
+	<link rel="stylesheet" type="text/css" href="{% static '' %}admin/css/base.css">
+	<link rel="stylesheet" type="text/css" href="{% static '' %}admin/css/nav_sidebar.css">
+	<script src="{% static '' %}admin/js/nav_sidebar.js" defer></script>
+	<link rel="stylesheet" type="text/css" href="{% static '' %}admin/css/login.css">
+	<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="{% static '' %}admin/css/responsive.css">
+	<meta name="robots" content="NONE,NOARCHIVE">
+		<body class=" login" data-admin-utc-offset="28800">
+		<!-- Container -->
+			<div id="container">
+				<!-- Header -->
+				<div id="header">
+					<div id="branding">
+						<h1 id="site-name">Login</h1>
+					</div>
+				</div>
+				<!-- END Header -->
+				<div class="main" id="main">
+				  <div class="content">
+					<!-- Content -->
+					<div id="content" class="colM">
+						<div id="content-main">
+							<form method="post" action="{% url 'web:login' %}">
+							{% csrf_token %}
+							  <div class="form-row">
+								<label for="id_username" class="required">Username:</label> <input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" required id="id_username">
+							  </div>
+							  <div class="form-row">
+								<label for="id_password" class="required">Password:</label> <input type="password" name="password" autocomplete="current-password" required id="id_password">
+							  </div>
+							  <div class="submit-row">
+								<input type="submit" value="Log in">
+							  </div>
+							</form>
+						</div>
+					  <br class="clear">
+					</div>
+					<!-- END Content -->
 		<center>
-			<p>未登入<a href="/accounts/login/">登入</a></p>
+						<div id="footer">
+							<p class="mt-5 mb-3 text-muted">
+								<a href="{% url 'web:password_reset' %}">Forget Password?</a>    NYMU DC&copy; 2017–2021
+							</p>
+						</div>
+
+				  </div>
+				</div>
+			</div>
 		</center>
+		<!-- END Container -->
     {% endif %}
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="/static/js/jquery-3.3.1.js"></script>
-    <script src="/static/js/popper.min.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="{% static '' %}js/jquery-3.3.1.js"></script>
+    <script src="{% static '' %}js/popper.min.js"></script>
+    <script src="{% static '' %}js/bootstrap.min.js"></script>
   </body>
 </html>
