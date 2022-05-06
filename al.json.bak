@@ -1,0 +1,12 @@
+heart_2022_Q2
+{
+    "ALDH2": "HGNC:404"
+}
+{
+    "rs671": {
+        "G/G": "normal",
+        "G/A": "medium",
+        "A/A": "high",
+        "./.": "none"
+    }
+}
